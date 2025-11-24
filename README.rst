@@ -1,5 +1,5 @@
 
-MeReco : Large-scale Metabolic Reconstruction from bacterial genomes 
+AuFAMe : Automated Functional Annotation and Metabolic networks building from bacterial genomes. 
 ==========================================
 
 Workflow to reconstruct multiple metabolic graphs directly from sequence fasta.
