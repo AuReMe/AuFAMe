@@ -1,0 +1,7 @@
+name: bakta-1.11.3
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bakta=1.11.3
+  - pyrodigal=3.6.3.post1

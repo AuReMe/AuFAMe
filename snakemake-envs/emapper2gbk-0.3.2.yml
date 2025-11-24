@@ -1,0 +1,7 @@
+name: emapper2gbk-0.3.2
+channels:
+  - fermentsdufutur
+  - bioconda
+  - conda-forge
+dependencies:
+  - emapper2gbk

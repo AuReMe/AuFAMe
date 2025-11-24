@@ -1,0 +1,9 @@
+name: prokka-1.14.6
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - prokka=1.14.6
+  - perl-xml-simple 
+  - blast
+  - MMseqs2
