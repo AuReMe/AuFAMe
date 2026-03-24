@@ -13,6 +13,7 @@ BAKTA_ENV = config["bakta_env"]
 PROKKA_ENV = config["prokka_env"]
 EGGNOG_ENV = config["eggnog_env"]
 METAGE2METABO = config["metage2metabo_env"]
+CALL_MPWT = config["mpwt_image"]
 
 TAXFILE = config["taxfile"] 
 
@@ -201,18 +202,21 @@ rule mpwt:
         expand("mpwt/{{annotool}}/{sample}.zip", sample=SAMPLES)
     conda: 
         METAGE2METABO
+    params:
+        db_in_mem_path=EGGNOG_DB_PATH
+        call_mpwt=CALL_MPWT
     threads: 
         32
     resources:
         process_data_jobs = 6
     shell: """
         if [ {wildcards.annotool} == "eggnog" ]; then 
-            rm -rf {EGGNOG_DB_PATH} || true
+            rm -rf {params.db_in_mem_path} || true
         fi 
 
         mkdir -p mpwt
 
-        mpwt -f {wildcards.annotool}/ \
+        {params.call_mpwt} mpwt -f {wildcards.annotool}/ \
         --cpu {threads} \
         -o mpwt/{wildcards.annotool} \
         --patho --flat --clean --md -r -v

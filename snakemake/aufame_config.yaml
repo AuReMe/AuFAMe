@@ -4,6 +4,7 @@ prokka_env: "snakemake-envs/prokka-1.14.6.yml"
 eggnog_env: "snakemake-envs/eggnog-2.1.13.yml"
 emapper2gbk_env: "snakemake-envs/emapper2gbk-0.3.2.yml"
 metage2metabo_env: "snakemake-envs/mpwt-padmet.yml"
+mpwt_image: ""
 
 ## pathes to databases 
 bak_db: "/db/outils/bakta-1.11.0/db/"
