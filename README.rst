@@ -79,12 +79,13 @@ Configfile is composed of 5 categories :
 	
 	- **Databases :** provides path to the 3 databases used during the workflow : Bakta, EggNOG-mapper, and MetaCyc.
 	
-	- **Files :** provides path to :
+	- **Files :** provides path to
 		- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
 		- taxon file ; it can follow `Prolipipe's taxonfile structure <https://github.com/AuReMe/prolipipe?tab=readme-ov-file#preparation-of-taxfile>`__, the 3 columns are mandatory (but the first, "Species", can be empty)
 		- output directory : not to change if the config file is already in your output directory
 	
-	- **EggNOG optimization option :** : AuFAMe can place temporarily the EggNOG database in memory to accelerate annotation. It's composed of 2 parameters : 
+	- **EggNOG optimization option :** 
+		AuFAMe can place temporarily the EggNOG database in memory to accelerate annotation. It's composed of 2 parameters : 
 		- `eggnog_db_optim` : fill it with `"yes"` if you want AuFAMe to move it temporarily in memory (needs 50G free).
 		- `eggnog_db_optim_path` : you can specify the directory name in memory (need to start with /dev/shm)
 	
