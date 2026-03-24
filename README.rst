@@ -74,16 +74,21 @@ Usage
 
 Before launching AuFAMe, you will need to setup the configfile and place it in the output directory of your choice. 
 Configfile is composed of 5 categories : 
-- **Conda environments :** provides path to yaml files (by default) or already available conda environment.
-- **Databases :** provides path to the 3 databases used during the workflow : Bakta, EggNOG-mapper, and MetaCyc.
-- **Files :** provides path to :
-	- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
-	- taxon file ; it can follow `Prolipipe's taxonfile structure <https://github.com/AuReMe/prolipipe?tab=readme-ov-file#preparation-of-taxfile>`__, the 3 columns are mandatory (but the first, "Species", can be empty)
-	- output directory : not to change if the config file is already in your output directory
-- **EggNOG optimization option :** : AuFAMe can place temporarily the EggNOG database in memory to accelerate annotation. It's composed of 2 parameters : 
-	- `eggnog_db_optim` : fill it with `"yes"` if you want AuFAMe to move it temporarily in memory (needs 50G free).
-	- `eggnog_db_optim_path` : you can specify the directory name in memory (need to start with /dev/shm)
-- **Other parameters :** : you can specify the annotation tools to rely on, and intermediate files to remove 
+
+	- **Conda environments :** provides path to yaml files (by default) or already available conda environment.
+	
+	- **Databases :** provides path to the 3 databases used during the workflow : Bakta, EggNOG-mapper, and MetaCyc.
+	
+	- **Files :** provides path to :
+		- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
+		- taxon file ; it can follow `Prolipipe's taxonfile structure <https://github.com/AuReMe/prolipipe?tab=readme-ov-file#preparation-of-taxfile>`__, the 3 columns are mandatory (but the first, "Species", can be empty)
+		- output directory : not to change if the config file is already in your output directory
+	
+	- **EggNOG optimization option :** : AuFAMe can place temporarily the EggNOG database in memory to accelerate annotation. It's composed of 2 parameters : 
+		- `eggnog_db_optim` : fill it with `"yes"` if you want AuFAMe to move it temporarily in memory (needs 50G free).
+		- `eggnog_db_optim_path` : you can specify the directory name in memory (need to start with /dev/shm)
+	
+	- **Other parameters :** : you can specify the annotation tools to rely on, and intermediate files to remove 
 
 Once in an environment able to run Snakemake, you can launch AuFAMe with the following command :
 
