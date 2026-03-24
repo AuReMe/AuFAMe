@@ -3,11 +3,11 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mereco"
+name = "aufame"
 dynamic = ["version"]
-authors = [{name = "mereco", email = "gem-aureme@inria.fr"}]
+authors = [{name = "aufame", email = "gem-aureme@inria.fr"}]
 readme = "README.rst"
-description = "MeReco : large-scale assessment of metabolic profiles on bacteria focusing on specific pathways."
+description = "AuFAMe : Automated Functional Annotation and Metabolic networks building from bacterial genomes."
 license = {text = "GPL-3.0-or-later"}
 
 dependencies = ['pandas',
@@ -17,14 +17,14 @@ dependencies = ['pandas',
 	     
 
 [project.scripts]
-mereco = "src.__main__:main"
+aufame = "src.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/AuReMe/MeReco"
+Homepage = "https://github.com/AuReMe/aufame"
 
 [tool.setuptools]
-packages = ['mereco']
+packages = ['aufame']
 
 [tool.setuptools.dynamic]
-version = { attr = "mereco.__version__" }
+version = { attr = "aufame.__version__" }
 dependencies = {file = ["requirements.txt"]}

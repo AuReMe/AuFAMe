@@ -10,7 +10,7 @@ Workflow to reconstruct multiple metabolic graphs directly from sequence fasta.
 
 License
 --------
-This workflow is licensed under the GNU GPL-3.0-or-later, see the `LICENSE <https://github.com/AuReMe/mereco/blob/main/LICENSE>`__ file for details.
+This workflow is licensed under the GNU GPL-3.0-or-later, see the `LICENSE <https://github.com/AuReMe/aufame/blob/main/LICENSE>`__ file for details.
 
 Installation
 ------------
@@ -63,21 +63,30 @@ Thirdly run this command:
 pip
 ~~~
 
-If you have installed all the dependencies, you can just install MeReco with:
+If you have installed all the dependencies, you can just install AuFAMe with:
 
 .. code:: sh
 
-	pip install mereco
+	pip install aufame
 
 Usage
 -----
 
-.. code:: python
+Before launching AuFAMe, you will need to setup the configfile and place it in the output directory of your choice. 
+Configfile is composed of 5 categories : 
+- **Conda environments :** provides path to yaml files (by default) or already available conda environment.
+- **Databases :** provides path to the 3 databases used during the workflow : Bakta, EggNOG-mapper, and MetaCyc.
+- **Files :** provides path to :
+	- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
+	- taxon file ; it can follow `Prolipipe's taxonfile structure <https://github.com/AuReMe/prolipipe?tab=readme-ov-file#preparation-of-taxfile>`__, the 3 columns are mandatory (but the first, "Species", can be empty)
+	- output directory : not to change if the config file is already in your output directory
+- **EggNOG optimization option :** : AuFAMe can place temporarily the EggNOG database in memory to accelerate annotation. It's composed of 2 parameters : 
+	- `eggnog_db_optim` : fill it with `"yes"` if you want AuFAMe to move it temporarily in memory (needs 50G free).
+	- `eggnog_db_optim_path` : you can specify the directory name in memory (need to start with /dev/shm)
+- **Other parameters :** : you can specify the annotation tools to rely on, and intermediate files to remove 
 
- metabolic_reconstruction.py [-h] -i INPUT -o OUTPUT --tax TAXFILE --padmet_ref PATH_TO_PADMET_REF --ptsc PTSC --ptsi PTSI [--annot ANNOT] [--egg_path EGG_PATH] [--bak_path BAK_PATH]
-                             [-c CPUS] [-k TO_KEEP] [-q]
+Once in an environment able to run Snakemake, you can launch AuFAMe with the following command :
 
--k flag can be used to save some intermediary files from Prokka and Bakta (listed blow). 
-To keep some specific files, mention their extension separated by ",", following the structure below : 
-	Prokka : .ecn,.err,.ffn,.fixed*,.fsa,.gff,.log,.sqn,.tbl,.val,.faa
-	Bakta : .embl,.faa,.ffn,.fna,.gff3,.hypotheticals.faa,.hypotheticals.tsv,.json,.log,.png,.svg,.tsv
+.. code:: bash
+
+	snakemake --use-conda --conda-frontend conda -s path/to/aufame.smk -d [OUTPUT_DIR] -p --rerun-triggers mtime --resources process_data_jobs=10 --rerun-incomplete --keep-going --cores [NB_THREADS]
