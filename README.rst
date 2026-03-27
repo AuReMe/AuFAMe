@@ -75,9 +75,13 @@ Usage
 Before launching AuFAMe, you will need to setup the configfile and place it in the output directory of your choice. 
 Configfile is composed of 5 categories : 
 
-	- **Conda environments :** provides path to yaml files (by default) or already available conda environment.
+	- **Conda environments / Singularity images :** provides path to yaml files (by default) or already available conda environment. Since singularity images can be used for tools calling (mpwt, emapper2gbk till now), you can specify path to corresponding Singularity images and AuFAMe will prioritize their use.
 	
-	- **Databases :** provides path to the 3 databases used during the workflow : Bakta, EggNOG-mapper, and MetaCyc.
+	- **Databases :** provides path to the 3 databases (+1 facultative) used during the workflow and need to be downloaded : 
+		- Bakta, 
+		- EggNOG-mapper, 
+		- emapper2gbk uses GO ontology database that can cause errors when trying to access online. you can download it `here <https://current.geneontology.org/ontology/go-basic.obo>`__,
+		- MetaCyc.
 	
 	- **Files :** provides path to
 		- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
@@ -95,4 +99,4 @@ Once in an environment able to run Snakemake, you can launch AuFAMe with the fol
 
 .. code:: bash
 
-	snakemake --use-conda --conda-frontend conda -s path/to/aufame.smk -d [OUTPUT_DIR] -p --rerun-triggers mtime --resources process_data_jobs=10 --rerun-incomplete --keep-going --cores [NB_THREADS]
+	snakemake --use-singularity --use-conda --conda-frontend conda -s path/to/aufame.smk -d [OUTPUT_DIR] -p --rerun-triggers mtime --resources process_data_jobs=10 --rerun-incomplete --keep-going --cores [NB_THREADS]
