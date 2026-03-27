@@ -12,8 +12,9 @@ EMAPPER2GBK_ENV = config["emapper2gbk_env"]
 BAKTA_ENV = config["bakta_env"]
 PROKKA_ENV = config["prokka_env"]
 EGGNOG_ENV = config["eggnog_env"]
-METAGE2METABO = config["metage2metabo_env"]
+MPWT_PADMET = config["mpwt-padmet_env"]
 CALL_MPWT = config["mpwt_image"]
+CALL_EMAPPER2GBK = config["emapper2gbk_image"]
 
 TAXFILE = config["taxfile"] 
 
@@ -175,8 +176,10 @@ rule emapper2gbk:
         gbk = "eggnog/{sample}/{sample}.gbk"
     conda: 
         EMAPPER2GBK_ENV
+    params:
+        call_emapper2gbk=CALL_EMAPPER2GBK
     shell: """
-           emapper2gbk genes \
+           {params.call_emapper2gbk} emapper2gbk genes \
            -fn {input.fasta} \
            -fp {input.fastap} \
            -a {input.annot} \
@@ -201,9 +204,9 @@ rule mpwt:
     output:
         expand("mpwt/{{annotool}}/{sample}.zip", sample=SAMPLES)
     conda: 
-        METAGE2METABO
+        MPWT_PADMET
     params:
-        db_in_mem_path=EGGNOG_DB_PATH
+        db_in_mem_path=EGGNOG_DB_PATH,
         call_mpwt=CALL_MPWT
     threads: 
         32
@@ -228,7 +231,7 @@ rule pgdb2padmet:
     output: 
         "padmet/{sample}/{sample}_{annotool}.padmet"
     conda: 
-        METAGE2METABO
+        MPWT_PADMET
     params: 
         METACYC_REF=config["metacyc_ref"]
     shell: """
@@ -252,7 +255,7 @@ rule merge_padmet:
     output: 
         "merged_padmet/{sample}.padmet"
     conda: 
-        METAGE2METABO
+        MPWT_PADMET
     shell: """
            mkdir -p merged_padmet/
            
@@ -267,7 +270,7 @@ rule compare_padmet:
     output: 
         "tsv_files/reactions.tsv"
     conda: 
-        METAGE2METABO
+        MPWT_PADMET
     shell: """
            mkdir -p tsv_files
 

@@ -1,10 +1,11 @@
-## conda environments names  
+## conda environments names/ Singularity images pathes   
 bakta_env: "snakemake-envs/bakta-1.11.3.yml"
 prokka_env: "snakemake-envs/prokka-1.14.6.yml"
 eggnog_env: "snakemake-envs/eggnog-2.1.13.yml"
 emapper2gbk_env: "snakemake-envs/emapper2gbk-0.3.2.yml"
-metage2metabo_env: "snakemake-envs/mpwt-padmet.yml"
+mpwt-padmet_env: "snakemake-envs/mpwt-padmet.yml"
 mpwt_image: ""
+emapper2gbk_image: ""
 
 ## pathes to databases 
 bak_db: "/db/outils/bakta-1.11.0/db/"
