@@ -10,6 +10,7 @@ emapper2gbk_image: ""
 ## pathes to databases 
 bak_db: "/db/outils/bakta-1.11.0/db/"
 egg_db: "/db/outils/eggnog-mapper-2.1.12/"
+emapper2gbk_db: "/scratch/norobert/dbs/db_emapper2gbk/go-basic.obo"
 metacyc_ref: "/home/nerobert/work/pathway-tools/aic-export/pgdbs/biocyc/metacyc/29.0/padmet/metacyc_29.0.padmet"
 
 ## pathes to files 
