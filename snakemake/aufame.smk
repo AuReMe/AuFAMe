@@ -8,22 +8,34 @@ configfile: "aufame_config.yaml"
 GENOMES_DIR = config["genomes_dir"]
 ANNOTOOLS = config["annotools"]
 
-EMAPPER2GBK_ENV = config["emapper2gbk_env"]
+if config["emapper2gbk_image"] != "" :
+    cnda_emapper2gbk = None
+    sing_emapper2gbk = config["emapper2gbk_image"]
+else:
+    cnda_emapper2gbk = config["emapper2gbk_env"]
+    sing_emapper2gbk = None
+
 BAKTA_ENV = config["bakta_env"]
 PROKKA_ENV = config["prokka_env"]
 EGGNOG_ENV = config["eggnog_env"]
-MPWT_PADMET = config["mpwt-padmet_env"]
-CALL_MPWT = config["mpwt_image"]
-CALL_EMAPPER2GBK = config["emapper2gbk_image"]
+
+if config["mpwt_image"] != "" :
+    cnda_mpwt-padmet = None
+    sing_mpwt-padmet = config["mpwt_image"]
+else:
+    cnda_mpwt-padmet = config["mpwt-padmet_env"]
+    sing_mpwt-padmet = None
 
 TAXFILE = config["taxfile"] 
 
 EGGNOG_DB_PATH = "/dev/shm/eggnog_db_" + datetime.today().strftime("%Y%m%d_%H%M%S") if config["eggnog_db_optim_path"] == "" else config["eggnog_db_optim_path"]
+EMAPPER2GBK_GO_DB = f" -go {config['emapper2gbk_db']} " if config['emapper2gbk_db'] != "" else ""
 
 workdir: config["output_dir"]
 
 SAMPLES = [basename(dirname(file)) for file in glob.glob(f"{GENOMES_DIR}/*/*.fasta")]
 INPUT_FASTA = lambda wildcards: f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fasta"
+
 
 def create_taxon_file(wildcards, samples, taxfile):
     """
@@ -175,15 +187,18 @@ rule emapper2gbk:
     output: 
         gbk = "eggnog/{sample}/{sample}.gbk"
     conda: 
-        EMAPPER2GBK_ENV
+        cnda_emapper2gbk
+    singularity:
+        sing_emapper2gbk 
     params:
-        call_emapper2gbk=CALL_EMAPPER2GBK
+        go_db=EMAPPER2GBK_GO_DB
     shell: """
-           {params.call_emapper2gbk} emapper2gbk genes \
+           emapper2gbk genes \
            -fn {input.fasta} \
            -fp {input.fastap} \
            -a {input.annot} \
-           -o {output.gbk}
+           -o {output.gbk} \
+           {params.go_db}
            """
 
 rule create_taxon:
@@ -203,11 +218,12 @@ rule mpwt:
         taxon_file = os.path.join("{annotool}", "taxon_id.tsv")
     output:
         expand("mpwt/{{annotool}}/{sample}.zip", sample=SAMPLES)
-    conda: 
-        MPWT_PADMET
+    conda:
+        cnda_mpwt-padmet
+    singularity:
+        sing_mpwt-padmet
     params:
-        db_in_mem_path=EGGNOG_DB_PATH,
-        call_mpwt=CALL_MPWT
+        db_in_mem_path=EGGNOG_DB_PATH
     threads: 
         32
     resources:
@@ -219,7 +235,7 @@ rule mpwt:
 
         mkdir -p mpwt
 
-        {params.call_mpwt} mpwt -f {wildcards.annotool}/ \
+        mpwt -f {wildcards.annotool}/ \
         --cpu {threads} \
         -o mpwt/{wildcards.annotool} \
         --patho --flat --clean --md -r -v
@@ -230,8 +246,10 @@ rule pgdb2padmet:
         "mpwt/{annotool}/{sample}.zip"
     output: 
         "padmet/{sample}/{sample}_{annotool}.padmet"
-    conda: 
-        MPWT_PADMET
+    conda:
+        cnda_mpwt-padmet
+    singularity:
+        sing_mpwt-padmet
     params: 
         METACYC_REF=config["metacyc_ref"]
     shell: """
@@ -254,8 +272,10 @@ rule merge_padmet:
         expand("padmet/{{sample}}/{{sample}}_{annotool}.padmet", annotool=ANNOTOOLS)
     output: 
         "merged_padmet/{sample}.padmet"
-    conda: 
-        MPWT_PADMET
+    conda:
+        cnda_mpwt-padmet
+    singularity:
+        sing_mpwt-padmet
     shell: """
            mkdir -p merged_padmet/
            
@@ -269,8 +289,10 @@ rule compare_padmet:
         expand("merged_padmet/{sample}.padmet", sample=SAMPLES)
     output: 
         "tsv_files/reactions.tsv"
-    conda: 
-        MPWT_PADMET
+    conda:
+        cnda_mpwt-padmet
+    singularity:
+        sing_mpwt-padmet
     shell: """
            mkdir -p tsv_files
 
