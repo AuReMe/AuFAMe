@@ -149,12 +149,12 @@ rule eggnog:
             if [ -z "$( ls -A $db_in_mem )" ]; then
                 echo "WARNING : adding database to memory can raise permissions errors."
                 echo "If so, please transfer yourself the database with the following command : "
-                echo "cp -r {params.EGG_DB} $db_in_mem/"
+                echo "cp -r {params.EGG_DB}/* $db_in_mem/"
                 memfree=$(awk '/MemFree/ {{ printf "%.3f \\n", $2/1024/1024 }}' /proc/meminfo)
                 memfree_ok=$(echo $memfree | awk -v thresh="$mem_threshold" '{{ print ($1 > thresh) ? "true" : "false" }}')
                 if [ $memfree_ok == "true" ]; then
                     echo "Enough space for copying Eggnog DB in memory, processing..."
-                    cp -r {params.EGG_DB} $db_in_mem/
+                    cp -r {params.EGG_DB}/* $db_in_mem/
                     options_db=$db_in_mem
                     echo "Launching Eggnog-mapper accordingly."
                 else 
