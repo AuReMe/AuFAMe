@@ -137,7 +137,7 @@ rule eggnog:
         EGG_DB=config["egg_db"],
         db_in_mem_path=EGGNOG_DB_PATH,
         db_in_mem_bool=config["eggnog_db_optim"],
-        mem_threshold=50
+        mem_threshold=70
     shell: """
         mem_threshold={params.mem_threshold}
         db_in_mem={params.db_in_mem_path}
