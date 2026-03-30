@@ -20,11 +20,11 @@ PROKKA_ENV = config["prokka_env"]
 EGGNOG_ENV = config["eggnog_env"]
 
 if config["mpwt_image"] != "" :
-    cnda_mpwt-padmet = None
-    sing_mpwt-padmet = config["mpwt_image"]
+    cnda_mpwt_padmet = None
+    sing_mpwt_padmet = config["mpwt_image"]
 else:
-    cnda_mpwt-padmet = config["mpwt-padmet_env"]
-    sing_mpwt-padmet = None
+    cnda_mpwt_padmet = config["mpwt_padmet_env"]
+    sing_mpwt_padmet = None
 
 TAXFILE = config["taxfile"] 
 
@@ -32,6 +32,7 @@ EGGNOG_DB_PATH = "/dev/shm/eggnog_db_" + datetime.today().strftime("%Y%m%d_%H%M%
 EMAPPER2GBK_GO_DB = f" -go {config['emapper2gbk_db']} " if config['emapper2gbk_db'] != "" else ""
 
 workdir: config["output_dir"]
+
 
 SAMPLES = [basename(dirname(file)) for file in glob.glob(f"{GENOMES_DIR}/*/*.fasta")]
 INPUT_FASTA = lambda wildcards: f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fasta"
@@ -219,9 +220,9 @@ rule mpwt:
     output:
         expand("mpwt/{{annotool}}/{sample}.zip", sample=SAMPLES)
     conda:
-        cnda_mpwt-padmet
+        cnda_mpwt_padmet
     singularity:
-        sing_mpwt-padmet
+        sing_mpwt_padmet
     params:
         db_in_mem_path=EGGNOG_DB_PATH
     threads: 
@@ -247,9 +248,9 @@ rule pgdb2padmet:
     output: 
         "padmet/{sample}/{sample}_{annotool}.padmet"
     conda:
-        cnda_mpwt-padmet
+        cnda_mpwt_padmet
     singularity:
-        sing_mpwt-padmet
+        sing_mpwt_padmet
     params: 
         METACYC_REF=config["metacyc_ref"]
     shell: """
@@ -273,9 +274,9 @@ rule merge_padmet:
     output: 
         "merged_padmet/{sample}.padmet"
     conda:
-        cnda_mpwt-padmet
+        cnda_mpwt_padmet
     singularity:
-        sing_mpwt-padmet
+        sing_mpwt_padmet
     shell: """
            mkdir -p merged_padmet/
            
@@ -290,9 +291,9 @@ rule compare_padmet:
     output: 
         "tsv_files/reactions.tsv"
     conda:
-        cnda_mpwt-padmet
+        cnda_mpwt_padmet
     singularity:
-        sing_mpwt-padmet
+        sing_mpwt_padmet
     shell: """
            mkdir -p tsv_files
 
