@@ -84,7 +84,7 @@ Configfile is composed of 5 categories :
 		- MetaCyc.
 	
 	- **Files :** provides path to
-		- input directory containing genomes ; each genome must be placed in a subdirectory having the same name 
+		- input directory containing genomes ; each genome must be placed in a subdirectory having the same name, supported fasta extensions are ".fasta", ".fa" 
 		- taxon file ; it can follow `Prolipipe's taxonfile structure <https://github.com/AuReMe/prolipipe?tab=readme-ov-file#preparation-of-taxfile>`__, the 3 columns are mandatory (but the first, "Species", can be empty)
 		- output directory : not to change if the config file is already in your output directory
 	
