@@ -1,4 +1,4 @@
-name: mpwt-padmet
+name: mpwt_padmet
 channels:
   - fermentsdufutur
   - bioconda
