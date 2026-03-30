@@ -35,6 +35,7 @@ workdir: config["output_dir"]
 
 
 SAMPLES = [basename(dirname(file)) for file in glob.glob(f"{GENOMES_DIR}/*/*.fasta")]
+SAMPLES.extend(glob(f"{GENOMES_DIR}/*/*.fa"))
 INPUT_FASTA = lambda wildcards: f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fasta"
 
 
