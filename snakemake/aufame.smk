@@ -34,10 +34,8 @@ EMAPPER2GBK_GO_DB = f" -go {config['emapper2gbk_db']} " if config['emapper2gbk_d
 workdir: config["output_dir"]
 
 
-SAMPLES = [basename(dirname(file)) for file in glob.glob(f"{GENOMES_DIR}/*/*.fasta")]
-SAMPLES.extend(glob(f"{GENOMES_DIR}/*/*.fa"))
-INPUT_FASTA = lambda wildcards: f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fasta"
-
+SAMPLES = [basename(dirname(file)) for file in glob.glob(f"{GENOMES_DIR}/*/*.fasta") + glob.glob(f"{GENOMES_DIR}/*/*.fa")]
+INPUT_FASTA = lambda wildcards: glob.glob(f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fasta") + glob.glob(f"{GENOMES_DIR}/{wildcards.sample}/{wildcards.sample}.fa")
 
 def create_taxon_file(wildcards, samples, taxfile):
     """
