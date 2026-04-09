@@ -1,8 +1,7 @@
-name: mpwt_padmet
+name: padmet
 channels:
   - fermentsdufutur
   - bioconda
   - conda-forge
 dependencies:
-  - mpwt
-  - padmet
+  - padmet=5.0.3

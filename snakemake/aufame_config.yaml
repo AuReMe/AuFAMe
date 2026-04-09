@@ -4,18 +4,18 @@ prokka_env: "snakemake-envs/prokka-1.14.6.yml"
 eggnog_env: "snakemake-envs/eggnog-2.1.12.yml"
 emapper2gbk_env: "snakemake-envs/emapper2gbk-0.3.2.yml"
 mpwt_image: ""
-padmet_env: "snakemake-envs/padmet.yml"
+padmet_env: "snakemake-envs/padmet-5.0.3.yml"
 
 
 ## pathes to databases 
-bak_db: "/db/outils/bakta-1.11.0/db/"
-egg_db: "/db/outils/eggnog-mapper-2.1.12/"
-emapper2gbk_db: "/scratch/norobert/dbs/db_emapper2gbk/go-basic.obo"
-metacyc_ref: "/home/nerobert/work/pathway-tools/aic-export/pgdbs/biocyc/metacyc/29.0/padmet/metacyc_29.0.padmet"
+bak_db: ""
+egg_db: ""
+emapper2gbk_db: ""
+metacyc_ref: ""
 
 ## pathes to files 
-genomes_dir: "/home/nerobert/save/becycle_genomes/Contig"
-taxfile: "/home/nerobert/save/becycle_genomes/taxons_Contig.tsv"
+genomes_dir: ""
+taxfile: ""
 output_dir: "./"
 
 ## Eggnog option to put DB in memory : 

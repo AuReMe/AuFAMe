@@ -1,7 +1,7 @@
-name: eggnog-mapper-2.1.13
+name: eggnog-mapper-2.1.12
 channels:
   - bioconda
   - conda-forge
 dependencies:
-  - eggnog-mapper
+  - eggnog-mapper=2.1.12
   - MMseqs2=13.45111 ## too early version is not allowed on the cluster
