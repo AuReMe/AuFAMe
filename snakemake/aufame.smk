@@ -129,7 +129,6 @@ rule eggnog:
         mem_threshold={params.mem_threshold}
         db_in_mem={params.db_in_mem_path}
         mkdir -p $db_in_mem
-        tmp_dir="/projet/tmp/aufame"
 
         mkdir -p eggnog/{wildcards.sample}
         if [ {params.db_in_mem_bool} == "yes" ]; then
@@ -157,14 +156,12 @@ rule eggnog:
             options_db="{params.EGG_DB} --dbmem"
         fi
 
-        mkdir -p $tmp_dir
-
         emapper.py -i {input} -o {wildcards.sample} 
             --itype genome --genepred prodigal \
             --data_dir $options_db \
             --output_dir {params.FILEBASE} \
             --override \
-            --cpu {threads} --scratch_dir $tmp_dir --target_taxa 2 \
+            --cpu {threads} --target_taxa 2 \
             > eggnog/{wildcards.sample}/{wildcards.sample}_log.log
         """
 
