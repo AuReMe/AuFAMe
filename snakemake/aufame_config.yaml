@@ -19,7 +19,7 @@ taxfile: ""
 output_dir: "./"
 
 ## Eggnog option to put DB in memory : 
-eggnog_db_optim: "" # if "yes", the DB will be copied in memory and used from there (faster but need more space in /dev/shm)
+eggnog_db_optim: "" # needs a non-empty string ; if "yes", the DB will be copied in memory and used from there (faster but need more space in /dev/shm)
 eggnog_db_optim_path: "" # if eggnog_db_optim is yes and you don't want the default path (need to start with /dev/shm)
 
 ## parameters
