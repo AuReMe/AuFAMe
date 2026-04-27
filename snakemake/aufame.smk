@@ -85,8 +85,7 @@ rule bakta:
     input: 
         INPUT_FASTA
     output: 
-        gbk = "bakta/{sample}/{sample}.gbk",
-        faa = "bakta/{sample}/{sample}.faa"
+        gbk = "bakta/{sample}/{sample}.gbk"
     conda: 
         BAKTA_ENV
     params:
@@ -114,7 +113,8 @@ rule eggnog:
     output: 
         annot = temp("eggnog/{sample}/{sample}.emapper.annotations"),
         hits = temp("eggnog/{sample}/{sample}.emapper.hits"),
-        ortho = temp("eggnog/{sample}/{sample}.emapper.seed_orthologs")
+        ortho = temp("eggnog/{sample}/{sample}.emapper.seed_orthologs"),
+        fastap = temp("eggnog/{sample}/{sample}.emapper.genepred.fasta")
     conda: 
         EGGNOG_ENV
     threads: 
