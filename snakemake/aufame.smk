@@ -111,10 +111,11 @@ rule eggnog:
     input:
         INPUT_FASTA
     output: 
-        annot = temp("eggnog/{sample}/{sample}.emapper.annotations"),
         hits = temp("eggnog/{sample}/{sample}.emapper.hits"),
         ortho = temp("eggnog/{sample}/{sample}.emapper.seed_orthologs"),
-        fastap = temp("eggnog/{sample}/{sample}.emapper.genepred.fasta")
+        annot = "eggnog/{sample}/{sample}.emapper.annotations",
+        gff = "eggnog/{sample}/{sample}.emapper.genepred.gff",
+        fastap = "eggnog/{sample}/{sample}.emapper.genepred.fasta"
     conda: 
         EGGNOG_ENV
     threads: 
@@ -168,6 +169,7 @@ rule emapper2gbk:
     input:
         fasta = INPUT_FASTA, 
         fastap = "eggnog/{sample}/{sample}.emapper.genepred.fasta",
+        gff = "eggnog/{sample}/{sample}.emapper.genepred.gff",
         annot = "eggnog/{sample}/{sample}.emapper.annotations"
     output: 
         gbk = "eggnog/{sample}/{sample}.gbk"
@@ -176,12 +178,13 @@ rule emapper2gbk:
     params:
         go_db=EMAPPER2GBK_GO_DB
     shell: """
-           emapper2gbk genes \
+           emapper2gbk genomes \
            -fn {input.fasta} \
            -fp {input.fastap} \
            -a {input.annot} \
+           -g {input.gff} \
            -o {output.gbk} \
-           {params.go_db}
+           {params.go_db} -gt eggnog
            """
 
 rule create_taxon:
