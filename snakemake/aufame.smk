@@ -138,22 +138,20 @@ rule eggnog:
         mem_threshold=70
     shell: """
         mem_threshold={params.mem_threshold}
-        db_in_mem={params.db_in_mem_path}
-        mkdir -p $db_in_mem
-        tmp_dir="/projet/tmp/aufame"
-
+        mkdir -p {params.db_in_mem_path}
+        
         mkdir -p eggnog/{wildcards.sample}
         if [ {params.db_in_mem_bool} == "yes" ]; then
-            if [ -z "$( ls -A $db_in_mem )" ]; then
+            if [ -z "$( ls -A {params.db_in_mem_path} )" ]; then
                 echo "WARNING : adding database to memory can raise permissions errors."
                 echo "If so, please transfer yourself the database with the following command : "
-                echo "cp -r {params.EGG_DB}/* $db_in_mem/"
+                echo "cp -r {params.EGG_DB}/* {params.db_in_mem_path}"
                 memfree=$(awk '/MemFree/ {{ printf "%.3f \\n", $2/1024/1024 }}' /proc/meminfo)
                 memfree_ok=$(echo $memfree | awk -v thresh="$mem_threshold" '{{ print ($1 > thresh) ? "true" : "false" }}')
                 if [ $memfree_ok == "true" ]; then
                     echo "Enough space for copying Eggnog DB in memory, processing..."
-                    cp -r {params.EGG_DB}/* $db_in_mem/
-                    options_db=$db_in_mem
+                    cp -r {params.EGG_DB}/* {params.db_in_mem_path}
+                    options_db={params.db_in_mem_path}
                     echo "Launching Eggnog-mapper accordingly."
                 else 
                     echo "Not enough space in memory, processing with '--dbmem' option."
@@ -161,21 +159,19 @@ rule eggnog:
                 fi
             else 
                 echo "Eggnog DB in memory, processing accordingly..."
-                options_db=$db_in_mem
+                options_db={params.db_in_mem_path}
             fi
         else 
             echo "No request of shifting Eggnog-DB to memory, processing it with '--dbmem' option."
             options_db="{params.EGG_DB} --dbmem"
         fi
 
-        mkdir -p $tmp_dir
-
         emapper.py -i {input.faa_bakta} -o {wildcards.sample} \
             --itype proteins \
             --data_dir $options_db \
             --output_dir {params.FILEBASE} \
             --override \
-            --cpu {threads}  --scratch_dir $tmp_dir --target_taxa 2 \
+            --cpu {threads} --target_taxa 2 \
             > eggnog/{wildcards.sample}/{wildcards.sample}_log.log
         """
 
