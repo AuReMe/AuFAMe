@@ -1,0 +1,8 @@
+name: bakta-1.8.2
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bakta=1.8.2
+  - pyrodigal=2.3.0
+  - pyhhm=0.12.0
