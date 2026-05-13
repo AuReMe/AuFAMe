@@ -156,8 +156,8 @@ rule eggnog:
             options_db="{params.EGG_DB} --dbmem"
         fi
 
-        emapper.py -i {input} -o {wildcards.sample} \
-            --itype genome --genepred prodigal \
+        emapper.py -i {input.faa_bakta} -o {wildcards.sample} \
+            --itype proteins \
             --data_dir $options_db \
             --output_dir {params.FILEBASE} \
             --override \
