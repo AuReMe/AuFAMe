@@ -4,6 +4,9 @@ AuFAMe : Automated Functional Annotation and Metabolic networks building from ba
 
 Workflow to reconstruct multiple metabolic graphs directly from sequence fasta.
 
+To access to the strict workflow used for the following article : 
+`Evidencing strain-dependency of metabolic pathways within 1,494 lactic bacteria genomes with the in silico screening Prolipipe pipeline <https://peerj.com/articles/21453/>`__, please place yourself in the **AuFAMe---Prolific-version** branch 
+
 .. contents:: Table of contents
    :backlinks: top
    :local:
