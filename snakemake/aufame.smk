@@ -235,7 +235,7 @@ rule pgdb2padmet:
     params: 
         METACYC_REF=config["metacyc_ref"]
     shell: """
-           mkdir -p padmet/
+           mkdir -p padmet/{wildcards.sample} 
 
            unzip {input} -d mpwt/{wildcards.annotool}/{wildcards.sample}
 
